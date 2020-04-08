@@ -6,11 +6,11 @@
 ; верхнем уровне.
 
 (defun delete-element (lst element)
-    ((lambda (f t)
+    ((lambda (f k)
         (cond
             ((null lst) nil)
-            ((= f element) t)
-            (T (cons f (delete-element t element)))
+            ((= f element) k)
+            (T (cons f (delete-element k element)))
         )
     ) (car lst) (cdr lst))
 )
@@ -25,10 +25,10 @@
 ; (((с) b) а)
 
 (defun more-scopes(lst)
-    ((lambda (f t)
+    ((lambda (f k)
         (cond
-            ((null t) lst)
-            (T (list (more-scopes t) f))
+            ((null k) lst)
+            (T (list (more-scopes k) f))
         )
     ) (car lst) (cdr lst))
 )
