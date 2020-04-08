@@ -8,7 +8,7 @@
 
 (defun scalar (lst1 lst2)
     (if (or (null lst1)(null lst2)) 0
-        (+ (* (car lst1) (car lst2)) (scalar (cdr lst1) (cdr lst2)))
+        (apply '+ (mapcar '* lst1 lst2))
     )
 )
 
