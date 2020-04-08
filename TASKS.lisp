@@ -1,7 +1,6 @@
 ; Задачи 6, 15, 17, 18, 21, 22, 33, 42, 46, 47
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ; Задача 15
 ; Определите функцию, вычисляющую скалярное произведение векторов, заданных
 ; списками целых чисел.
@@ -44,11 +43,13 @@
 ; верхнем уровне.
 
 (defun delete-element (lst element)
-	(cond
-		((null lst) nil)
-		((= (car lst) element) (cdr lst))
-		(T (cons (car lst) (delete-element (cdr lst) element)))
-	)
+    ((lambda (f t)
+        (cond
+            ((null lst) nil)
+            ((= f element) t)
+            (T (cons f (delete-element t element)))
+        )
+    ) (car lst) (cdr lst))
 )
 
 ; Тесты
@@ -62,10 +63,12 @@
 ; (((с) b) а)
 
 (defun more-scopes(lst)
-    (cond
-        ((null (cdr lst)) lst)
-        (T (list (more-scopes(cdr lst)) (car lst)))
-    )
+    ((lambda (f t)
+        (cond
+            ((null t) lst)
+            (T (list (more-scopes t) f))
+        )
+    ) (car lst) (cdr lst))
 )
 
 ; Тесты
