@@ -1,43 +1,21 @@
-; Задачи 6, 15, 17, 18, 21, 22, 33, 42, 46, 47
+; Задачи 6, 17, 33, 42, 46, 47
+; Сданы 15, 18, 21, 22
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Задача 21
-; Определите функцию, удаляющую из списка первое вхождение данного элемента на
-; верхнем уровне.
+; Задача 42
+; Определите функцию, находящую максимальное из значений, находящихся в
+; вершинах дерева.
 
-(defun delete-element (lst element)
-    ((lambda (f k)
-        (cond
-            ((null lst) nil)
-            ((= f element) k)
-            (T (cons f (delete-element k element)))
-        )
-    ) (car lst) (cdr lst))
+(defun max-in-tree (tree)
+	(cond
+		((null (cdr tree)) (car tree))
+		(t (max (car tree) (max-in-tree (cadr tree)) (max-in-tree(caddr tree))))		
+	)
 )
 
 ; Тесты
-(print (delete-element '(1 2 3 4 5) 5))
-(print (delete-element '(1 5 1 5 1 2 3) 5))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Задача 22
-; Определите функцию, которая обращает список (а b с) и разбивает его на уровни
-; (((с) b) а)
-
-(defun more-scopes(lst)
-    ((lambda (f k)
-        (cond
-            ((null k) lst)
-            (T (list (more-scopes k) f))
-        )
-    ) (car lst) (cdr lst))
-)
-
-; Тесты
-(print (more-scopes '(1 2 3 4 5 6 7 8 9 0) ))
-(print (more-scopes '(1 2 3) ))
-(print (more-scopes '() ))
-
+(print (max-in-tree '(1 (2) (3))))
+(print (max-in-tree '(1 (2 (3) (4)) (5))))
+(print (max-in-tree '(1 (3 (5) (1)) (9 (10) (6)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -82,3 +60,41 @@
 (print (is-list-single-level '()          ))
 (print (is-list-single-level '(1 2 3 4)   ))
 (print (is-list-single-level '(1 2 3 (4)) ))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Задача 21
+; Определите функцию, удаляющую из списка первое вхождение данного элемента на
+; верхнем уровне.
+
+(defun delete-element (lst element)
+    ((lambda (f k)
+        (cond
+            ((null lst) nil)
+            ((= f element) k)
+            (T (cons f (delete-element k element)))
+        )
+    ) (car lst) (cdr lst))
+)
+
+; Тесты
+(print (delete-element '(1 2 3 4 5) 5))
+(print (delete-element '(1 5 1 5 1 2 3) 5))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Задача 22
+; Определите функцию, которая обращает список (а b с) и разбивает его на уровни
+; (((с) b) а)
+
+(defun more-scopes(lst)
+    ((lambda (f k)
+        (cond
+            ((null k) lst)
+            (T (list (more-scopes k) f))
+        )
+    ) (car lst) (cdr lst))
+)
+
+; Тесты
+(print (more-scopes '(1 2 3 4 5 6 7 8 9 0) ))
+(print (more-scopes '(1 2 3) ))
+(print (more-scopes '() ))
