@@ -1,21 +1,47 @@
-; Задачи 6, 17, 33, 42, 46, 47
-; Сданы 15, 18, 21, 22
+; Задачи 6, 17, 33, 46, 47
+; Сданы 15, 18, 21, 22, 42
 
-; Задача 42
-; Определите функцию, находящую максимальное из значений, находящихся в
-; вершинах дерева.
+; Задача 46. Предположим, что отец и мать некоторого лица, хранятся как  
+; значения соответствующих свойств у символа, обозначающего это лицо. 
+; Напишите функцию (РОДИТЕЛИ x), которая возвращает в качестве значения родителей,
+; и предикат (СЕСТРЫ-БРАТЬЯ x1 x2), который истинен в случае, если x1 и x2 — сестры  
+; или братья, родные или с одним общим родителем.
 
-(defun max-in-tree (tree)
-	(cond
-		((null (cdr tree)) (car tree))
-		(t (max (car tree) (max-in-tree (cadr tree)) (max-in-tree(caddr tree))))		
-	)
+(defun link-parents(child mother father)
+    (setf (get child 'mother) mother)
+    (setf (get child 'father) father)
 )
 
+(defun get-parents(child)
+    (list (get-mother child) (get-father child))
+)
+
+(defun get-father(child)
+    (get child 'father)
+)
+
+(defun get-mother(child)
+    (get child 'mother)
+)
+
+(defun is-sisters-or-brothers(child1 child2)
+    (cond
+        ((eq (get-mother child1) (get-mother child2)) T)
+        ((eq (get-father child1) (get-father child2)) T)
+        (T NIL)
+    )
+)
+
+(link-parents 'CHILD_1 'MOTHER_1 'FATHER_1)
+(link-parents 'CHILD_2 'MOTHER_2 'FATHER_2)
+(link-parents 'CHILD_3 'MOTHER_2 'FATHER_1)
+(link-parents 'CHILD_4 'MOTHER_3 'FATHER_3)
+
 ; Тесты
-(print (max-in-tree '(1 (2) (3))))
-(print (max-in-tree '(1 (2 (3) (4)) (5))))
-(print (max-in-tree '(1 (3 (5) (1)) (9 (10) (6)))))
+(print (is-sisters-or-brothers 'CHILD_1 'CHILD_2))
+(print (is-sisters-or-brothers 'CHILD_2 'CHILD_3))
+(print (is-sisters-or-brothers 'CHILD_3 'CHILD_1))
+(print (is-sisters-or-brothers 'CHILD_2 'CHILD_4))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -98,3 +124,19 @@
 (print (more-scopes '(1 2 3 4 5 6 7 8 9 0) ))
 (print (more-scopes '(1 2 3) ))
 (print (more-scopes '() ))
+
+; Задача 42
+; Определите функцию, находящую максимальное из значений, находящихся в
+; вершинах дерева.
+
+(defun max-in-tree (tree)
+	(cond
+		((null (cdr tree)) (car tree))
+		(t (max (car tree) (max-in-tree (cadr tree)) (max-in-tree(caddr tree))))		
+	)
+)
+
+; Тесты
+(print (max-in-tree '(1 (2) (3))))
+(print (max-in-tree '(1 (2 (3) (4)) (5))))
+(print (max-in-tree '(1 (3 (5) (1)) (9 (10) (6)))))
