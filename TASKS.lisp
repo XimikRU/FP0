@@ -1,31 +1,5 @@
-; Задачи 6, 17, 33
-; Сданы 15, 18, 21, 22, 42, 46, 47
-
-; Задача 33
-; Определите функцию МНОЖЕСТВО, преобразующую список в множество
-
-(defun create-set(lst)
-	((lambda(list1 list2)
-		(
-            cond((NULL lst) NIL)
-                ((check list1 list2) (create-set list2))
-                (T (cons list1 (create-set list2)))
-		)
-	)(car lst) (cdr lst))
-)
-
-(defun check(element lst)
-	((lambda(list1 list2)
-        (
-            cond((NULL lst) NIL)
-                ((eq element list1) T)
-                (T (check element list2))
-        )
-    )(car lst)(cdr lst))
-)
-
-(print (create-set '(1 1 2 3 4 4 4 5 4 6 4 7)))
-(print (create-set '(1 2 3 4 5 6 6 6 6)))
+; Задачи 6, 17
+; Сданы 15, 18, 21, 22, 42, 46, 47, 33
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -206,3 +180,30 @@
 (print (symbol-plist 'X)) ; (E 5 D 4 C 3 B 2 A 1)  
 (remove-properties 'X)
 (print (symbol-plist 'X)) ; NIL
+
+
+; Задача 33
+; Определите функцию МНОЖЕСТВО, преобразующую список в множество
+
+(defun create-set(lst)
+	((lambda(list1 list2)
+		(
+            cond((NULL lst) NIL)
+                ((check list1 list2) (create-set list2))
+                (T (cons list1 (create-set list2)))
+		)
+	)(car lst) (cdr lst))
+)
+
+(defun check(element lst)
+	((lambda(list1 list2)
+        (
+            cond((NULL lst) NIL)
+                ((eq element list1) T)
+                (T (check element list2))
+        )
+    )(car lst)(cdr lst))
+)
+
+(print (create-set '(1 1 2 3 4 4 4 5 4 6 4 7)))
+(print (create-set '(1 2 3 4 5 6 6 6 6)))
